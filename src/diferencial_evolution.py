@@ -38,7 +38,8 @@ def de_rand_1_bin(funcao, n, lb, ub, NP, F, CR, rho, max_nfe, seed):
     historico = []  # (nfe, melhor valor penalizado)
 
     # 1. população inicial
-    pop = ...  # TODO: shape (NP, n), dentro de [lb, ub]
+    r = rng.random((NP, n))
+    pop = lb + r * (ub - lb)
     fit = ...  # TODO: valor_penalizado de cada indivíduo (conta NFE!)
 
     while nfe < max_nfe:
