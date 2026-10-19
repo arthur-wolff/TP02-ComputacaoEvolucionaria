@@ -40,7 +40,12 @@ def de_rand_1_bin(funcao, n, lb, ub, NP, F, CR, rho, max_nfe, seed):
     # 1. população inicial
     r = rng.random((NP, n))
     pop = lb + r * (ub - lb)
-    fit = ...  # TODO: valor_penalizado de cada indivíduo (conta NFE!)
+
+    fit = np.zeros(NP)
+
+    for i in range(len(pop)):
+        fit[i] = valor_penalizado(pop[i], funcao, rho)
+        nfe += 1
 
     while nfe < max_nfe:
         for i in range(NP):
