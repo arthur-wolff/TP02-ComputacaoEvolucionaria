@@ -4,7 +4,8 @@ import time
 
 from src import funcoes_teste as ft
 
-LIMITES = {
+# Dominio das funcoes teste
+DOMINIO = {
     "esfera": (-5.12, 5.12),
     "ackley": (-32.768, 32.768),
     "rastrigin": (-5.12, 5.12),
@@ -32,15 +33,17 @@ def valor_penalizado(x, funcao, rho):
     return f + rho * np.sum(np.maximum(0, g) ** 2)
 
 
+# Funcao principal do DE
 def de_rand_1_bin(funcao, n, lb, ub, NP, F, CR, rho, max_nfe, seed):
     rng = np.random.default_rng(seed)
     nfe = 0
     historico = []  # (nfe, melhor valor penalizado)
 
-    # 1. população inicial
+    # População inicial
     r = rng.random((NP, n))
     pop = lb + r * (ub - lb)
 
+    # Fitness
     fit = np.zeros(NP)
 
     for i in range(len(pop)):
