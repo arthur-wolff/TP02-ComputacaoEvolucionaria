@@ -2,7 +2,7 @@ import numpy as np
 import time
 
 
-from src import funcoes_teste as ft
+import funcoes_teste as ft
 
 # Dominio das funcoes teste
 DOMINIO = {
