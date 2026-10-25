@@ -58,6 +58,8 @@ def resumir(runs):
         "melhor_f": melhor["melhor_f_viavel"] if ok else np.nan,
         "melhor_x": melhor["melhor_x_viavel"].tolist() if ok else None,
         "nfe_medio": np.mean([r["nfe"] for r in runs]),
+        "nfe_1a_viavel_mediana": np.nanmedian([r["nfe_primeira_viavel"] for r in runs]),
+        "nfe_1a_viavel_max": np.nanmax([r["nfe_primeira_viavel"] for r in runs]),
         "tempo_medio_s": np.mean([r["tempo"] for r in runs]),
         "frac_viavel_ini": np.mean([r["frac_viavel_ini"] for r in runs]),
     }

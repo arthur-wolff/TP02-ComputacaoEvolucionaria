@@ -24,9 +24,9 @@ def restricoes(x, funcao: str):
     elif funcao == "ackley":
         g2 = np.sum(x**2) - 50
     elif funcao == "rastrigin":
-        g2 = np.sum(np.cos(x)) - 1
+        g2 = np.sum(x**2) - 25
     else:
-        raise ValueError("Função desconhecida")
+        raise ValueError("Funcao desconhecida")
     return np.array([g1, g2])
 
 
@@ -111,6 +111,7 @@ def de_rand_1_bin(funcao, n, NP, F, CR, rho, max_nfe, seed):
     melhor_pen = np.inf
     melhor_f_viavel = np.inf
     melhor_x_viavel = None
+    nfe_primeira_viavel = None
 
     # População inicial
 
@@ -132,6 +133,8 @@ def de_rand_1_bin(funcao, n, NP, F, CR, rho, max_nfe, seed):
             melhor_x_viavel,
             hist,
         )
+        if nfe_primeira_viavel is None and melhor_x_viavel is not None:
+            nfe_primeira_viavel = nfe
 
     while nfe < max_nfe:
         nova_pop, nova_fit = pop.copy(), fit.copy()
@@ -163,6 +166,9 @@ def de_rand_1_bin(funcao, n, NP, F, CR, rho, max_nfe, seed):
             if f_pen <= fit[i]:
                 nova_pop[i], nova_fit[i] = trial, f_pen
 
+            if nfe_primeira_viavel is None and melhor_x_viavel is not None:
+                nfe_primeira_viavel = nfe
+
         pop, fit = nova_pop, nova_fit
 
     return {
@@ -176,6 +182,9 @@ def de_rand_1_bin(funcao, n, NP, F, CR, rho, max_nfe, seed):
         "nfe": nfe,
         "tempo": time.perf_counter() - t0,
         "achou_viavel": melhor_x_viavel is not None,
+        "nfe_primeira_viavel": (
+            nfe_primeira_viavel if nfe_primeira_viavel is not None else np.nan
+        ),
         "melhor_f_viavel": melhor_f_viavel if melhor_x_viavel is not None else np.nan,
         "melhor_x_viavel": melhor_x_viavel,
         "melhor_pen_final": melhor_pen,
